@@ -77,7 +77,7 @@ public unsafe partial struct AtkUldManager {
     [MemberFunction("E8 ?? ?? ?? ?? 81 7F ?? ?? ?? ?? ?? 4C 8B CB")]
     public partial void SetupComponentTimelineFromULDResourceHandle(byte* uldResourceOffset, uint componetId, AtkTimelineManager* atkTimeLineManager, AtkResNode* node);
 
-    [MemberFunction("E8 ?? ?? ?? ?? 0F B7 47 0E")]
+    [MemberFunction("E8 ?? ?? ?? ?? 0F B7 45 ?? FF C6")]
     public partial void BindTimeline(byte* uldResourceOffset, AtkUldObjectInfo* objects, byte* nodeData, AtkTimelineManager* atkTimeLineManager);
 
     /// <summary>
@@ -218,6 +218,6 @@ public enum ComponentType : byte {
     Preview = 23,
     HoldButton = 24,
     Portrait = 25,
-    Unk26 = 26, // related to the XBMItem sheet
-    Unk27 = 27, // related to the XBMContentStageEventMap sheet
+    XBMItem = 26,
+    XBMContentStageEventMap = 27,
 }
