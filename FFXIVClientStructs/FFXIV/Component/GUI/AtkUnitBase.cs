@@ -57,6 +57,7 @@ public unsafe partial struct AtkUnitBase : ICreatable<AtkUnitBase> {
     [FieldOffset(0x1A4)] public byte Flags1A4;
     [BitField<bool>(nameof(EnableTextNodePopulation), 5)]
     [BitField<bool>(nameof(DisableShowOnOpen), 6)]
+    [BitField<bool>(nameof(EnableCollisionClipping), 7)]
     [FieldOffset(0x1A5)] public byte Flags1A5;
     // 2 bytes padding
     [FieldOffset(0x1A8)] public int Param; // appears to be a generic field that some addons use for storage
@@ -133,6 +134,10 @@ public unsafe partial struct AtkUnitBase : ICreatable<AtkUnitBase> {
 
     /// <summary> Enables TextNodes to be populated (before OnSetup) </summary>
     public partial bool EnableTextNodePopulation { readonly get; set; }
+
+    /// <summary> Enables clip-aware collision selection for nodes with <see cref="AtkResNode.IsCollisionClipped"/>. </summary>
+    /// <remarks> Uses the nearest parent node with <see cref="NodeFlags.Clip"/>. </remarks>
+    public partial bool EnableCollisionClipping { readonly get; set; }
 
     /// <summary> Enable Filter (Modal window with backdrop) </summary>
     public partial bool EnableFilter { readonly get; set; }
@@ -233,7 +238,7 @@ public unsafe partial struct AtkUnitBase : ICreatable<AtkUnitBase> {
     /// <param name="arrayType">0 for StringArrayData or 1 for NumberArrayData</param>
     /// <param name="arrayIndex">The index in AtkArrayDataHolder</param>
     /// <param name="clean">Resets all values to default, also frees managed strings</param>
-    [MemberFunction("E8 ?? ?? ?? ?? 45 33 C9 8D 56 01")]
+    [MemberFunction("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 41 56 41 57 48 81 EC 90 00 00 00 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 84 24 ?? ?? ?? ?? BF 04 00 00 00")]
     public partial void UnsubscribeAtkArrayData(byte arrayType, byte arrayIndex, bool clean = false);
 
     [MemberFunction("E9 ?? ?? ?? ?? 48 8D 15 ?? ?? ?? ?? 41 B9 ?? ?? ?? ??"), GenerateStringOverloads]
@@ -271,6 +276,9 @@ public unsafe partial struct AtkUnitBase : ICreatable<AtkUnitBase> {
 
     [MemberFunction("E8 ?? ?? ?? ?? 8D 56 0C 48 8B CF")]
     public partial AtkEvent* RegisterEvent(AtkEventType eventType, uint param, AtkEventListener* listener, AtkResNode* node);
+
+    [MemberFunction("E8 ?? ?? ?? ?? 45 33 F6 48 8D B3")]
+    public partial bool UnregisterEvent(AtkEventType eventType, uint param, AtkEventListener* listener);
 
     [VirtualFunction(3)]
     public partial bool Open(uint depthLayer);

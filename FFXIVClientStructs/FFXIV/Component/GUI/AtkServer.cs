@@ -52,10 +52,13 @@ public unsafe partial struct AtkServer {
     [FieldOffset(0x4C0)] public Texture* WhiteTexture; // 4x4 solid white
     [FieldOffset(0x4C8)] public Texture* BlackTexture; // 4x4 solid black
 
+    [FieldOffset(0x580)] public AtkUICommandEntry* UICommandList;
+    [FieldOffset(0x588)] public uint UICommandCount;
+
     [VirtualFunction(0)]
     public partial AtkServer* Dtor(byte flags);
 
-    [MemberFunction("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 41 54 41 55 41 56 41 57 48 83 EC ?? 65 4C 8B 34 25")]
+    [MemberFunction("48 83 EC 28 48 8B 01 48 85 C0 74 ?? 0F B6 91 ?? ?? ?? ?? 48 8B C8 E8", 0x17)]
     public partial void Draw(bool a2);
 
     [MemberFunction("E9 ?? ?? ?? ?? CC CC CC CC CC CC CC CC CC CC 48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 7C 24 ?? 41 56")]
