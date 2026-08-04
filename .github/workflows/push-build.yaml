@@ -2,6 +2,9 @@ name: Push Build
 
 on: push
 
+permissions:
+  contents: read
+
 concurrency: 
   group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
@@ -17,16 +20,28 @@ jobs:
       - name: Run CExporter
         working-directory: ./
         run: dotnet run --project CExporter/CExporter.csproj -c Release
-      - name: Check error txt file for content
-        id: check_error
+      - name: Validate CExporter diagnostics
+        shell: bash
         run: |
-          if [ -s ./ida/errors.txt ]; then
-            echo "error=true" >> $GITHUB_OUTPUT
+          sed -E 's/\x1B\[[0-9;]*[mK]//g' ./ida/errors.txt > ./ida/errors.normalized.txt
+
+          {
+            echo "### CExporter diagnostics"
+            echo
+            echo "The CN branch keeps a reviewed diagnostic baseline. Any addition, removal, or change must be reviewed explicitly."
+            echo
+            echo '```text'
+            if [ -s ./ida/errors.normalized.txt ]; then
+              cat ./ida/errors.normalized.txt
+            else
+              echo "No layout diagnostics."
+            fi
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if ! diff -u ./.github/cexporter-known-errors.txt ./ida/errors.normalized.txt; then
+            echo "::error::CExporter diagnostics differ from the reviewed CN baseline."
+            exit 1
           else
-            echo "error=false" >> $GITHUB_OUTPUT
+            echo "CExporter diagnostics match the reviewed CN baseline."
           fi
-      - name: Create commit comment
-        if: steps.check_error.outputs.error == 'true'
-        uses: peter-evans/commit-comment@v4
-        with:
-          body-path: './ida/errors.txt'

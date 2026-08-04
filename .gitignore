@@ -1,5 +1,6 @@
 *.dll
 ida/errors.txt
+ida/data-missmatch2.txt
 ida/uld_names.txt
 .vscode/
 .idea/
