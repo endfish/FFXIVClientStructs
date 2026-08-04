@@ -39,7 +39,7 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if ! diff -u ./.github/cexporter-known-errors.txt ./ida/errors.normalized.txt; then
+          if ! diff -u <(LC_ALL=C sort ./.github/cexporter-known-errors.txt) <(LC_ALL=C sort ./ida/errors.normalized.txt); then
             echo "::error::CExporter diagnostics differ from the reviewed CN baseline."
             exit 1
           else
