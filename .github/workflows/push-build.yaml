@@ -23,7 +23,7 @@ jobs:
       - name: Validate CExporter diagnostics
         shell: bash
         run: |
-          sed -E 's/\x1B\[[0-9;]*[mK]//g' ./ida/errors.txt > ./ida/errors.normalized.txt
+          sed -E 's/\x1B\[[0-9;]*[mK]//g; s/\r$//' ./ida/errors.txt > ./ida/errors.normalized.txt
 
           {
             echo "### CExporter diagnostics"
@@ -39,7 +39,9 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if ! diff -u <(LC_ALL=C sort ./.github/cexporter-known-errors.txt) <(LC_ALL=C sort ./ida/errors.normalized.txt); then
+          if ! diff -u \
+            <(LC_ALL=C sort ./.github/cexporter-known-errors.txt | sed 's/\r$//') \
+            <(LC_ALL=C sort ./ida/errors.normalized.txt | sed 's/\r$//'); then
             echo "::error::CExporter diagnostics differ from the reviewed CN baseline."
             exit 1
           else
