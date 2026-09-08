@@ -29,9 +29,11 @@ public unsafe partial struct EventHandler {
     [FieldOffset(0xA0)] private ExcelSheet* UnkExcelSheet1;
     [FieldOffset(0xA8)] private ExcelSheetWaiter* UnkExcelSheetWaiter2;
     [FieldOffset(0xB0)] private ExcelSheet* UnkExcelSheet2;
-    [FieldOffset(0xB8)] private ExcelSheetWaiter* UnkExcelSheetWaiter3;
-    [FieldOffset(0xC0)] private ExcelSheet* UnkExcelSheet3;
-    [FieldOffset(0xC8)] private Utf8String UnkSheetName; // sheet set to UnkExcelSheet3, for FormatStringCallback?
+    [FieldOffset(0xB8)] public ExcelSheetWaiter* CustomDefineSheetWaiter;
+    [FieldOffset(0xC0)] public ExcelSheet* CustomDefineSheet;
+    [FieldOffset(0xC8)] public Utf8String CustomDefineSheetName; // for example: warp/WarpInnGridania
+
+    [FieldOffset(0x148)] public uint CustomDefineSheetRowCount;
 
     [FieldOffset(0x158)] private ExcelSheetWaiter* UnkExcelSheetWaiter4;
     [FieldOffset(0x160)] private ExcelSheet* UnkExcelSheet4; // TripleTriadCard, XBMBattleDetailAction
@@ -53,6 +55,19 @@ public unsafe partial struct EventHandler {
 
     [VirtualFunction(60)]
     public partial void ProcessActionTimelineCallback(Character.Character* character, ushort actionTimelineId, ulong callbackParam);
+
+    /// <summary>
+    /// Called to dispatch a director update (see EventFramework.ProcessDirectorUpdate).
+    /// </summary>
+    /// <param name="parameters">Pointer to seven uints (category, arg1, arg2, arg3, arg4, arg5, arg6).</param>    [VirtualFunction(61)]
+    [VirtualFunction(61)]
+    public partial void ProcessDirectorUpdate(uint* parameters);
+
+    /// <summary>
+    /// Implemented by certain EventHandlers (e.g. GoldSaucerArcadeMachineEventHandler) so they can handle the director update instead.
+    /// </summary>
+    [VirtualFunction(62)]
+    public partial void ProcessEventSpecificDirectorUpdate(uint category, uint arg1, uint arg2, uint arg3, uint arg4);
 
     [VirtualFunction(70)]
     public partial void CancelByPlayerMovement(bool a2, bool a3);
