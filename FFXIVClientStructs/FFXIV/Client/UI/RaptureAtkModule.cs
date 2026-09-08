@@ -15,7 +15,7 @@ namespace FFXIVClientStructs.FFXIV.Client.UI;
 //   Common::Configuration::ConfigBase::ChangeEventInterface
 [GenerateInterop]
 [Inherits<AtkModule>, Inherits<ChangeEventInterface>]
-[StructLayout(LayoutKind.Explicit, Size = 0x2A950)]
+[StructLayout(LayoutKind.Explicit, Size = 0x2A970)]
 [VirtualTable("48 8D 05 ?? ?? ?? ?? 48 89 8F ?? ?? ?? ?? 48 89 07", 3)]
 public unsafe partial struct RaptureAtkModule {
     public static RaptureAtkModule* Instance() {
@@ -35,51 +35,52 @@ public unsafe partial struct RaptureAtkModule {
     [FieldOffset(0x87D0 - 0x10)] public Utf8String BoldOff; // <bold(0)>
 
     [FieldOffset(0x887F - 0x10)] public AgentUpdateFlags AgentUpdateFlag; // reset happens in RaptureAtkModule_OnUpdate
-    [FieldOffset(0x8880 - 0x10), FixedSizeArray] internal FixedSizeArray990<AddonFactoryInfo> _addonFactories;
-    [FieldOffset(0x12330 - 0x10)] public StdVector<Utf8String> AddonNames;
-    [FieldOffset(0x12348 - 0x10)] public AddonConfig* AddonConfigPtr;
+    // CN September patch adds one 0x28-byte factory; later embedded managers align to 0x10.
+    [FieldOffset(0x8880 - 0x10), FixedSizeArray] internal FixedSizeArray991<AddonFactoryInfo> _addonFactories;
+    [FieldOffset(0x12348)] public StdVector<Utf8String> AddonNames;
+    [FieldOffset(0x12360)] public AddonConfig* AddonConfigPtr;
 
-    [FieldOffset(0x12352 - 0x10)] public AtkCursor.CursorType CursorType;
+    [FieldOffset(0x1236A)] public AtkCursor.CursorType CursorType;
 
-    // [FieldOffset(0x12358 - 0x10)] public ProhibitModule ProhibitModule;
-    [FieldOffset(0x123F0 - 0x10)] public int AudioClientRpcTagSize;
+    // [FieldOffset(0x12370)] public ProhibitModule ProhibitModule;
+    [FieldOffset(0x12408)] public int AudioClientRpcTagSize;
 
-    [FieldOffset(0x123F8 - 0x10)] public char* AudioClientRpcTag;
-    [FieldOffset(0x12400 - 0x10)] public UIModule* UIModulePtr;
-    [FieldOffset(0x12408 - 0x10)] public RaptureLogModule* RaptureLogModulePtr;
-    [FieldOffset(0x12410 - 0x10)] public AgentModule AgentModule;
-    [FieldOffset(0x13428 - 0x10)] public RaptureHotbarModule* RaptureHotbarModulePtr;
-    [FieldOffset(0x13430 - 0x10)] public RaptureAtkUnitManager RaptureAtkUnitManager;
-    [FieldOffset(0x1D160 - 0x10)] public RaptureAtkColorDataManager RaptureAtkColorDataManager;
+    [FieldOffset(0x12410)] public char* AudioClientRpcTag;
+    [FieldOffset(0x12418)] public UIModule* UIModulePtr;
+    [FieldOffset(0x12420)] public RaptureLogModule* RaptureLogModulePtr;
+    [FieldOffset(0x12428)] public AgentModule AgentModule;
+    [FieldOffset(0x13440)] public RaptureHotbarModule* RaptureHotbarModulePtr;
+    [FieldOffset(0x13450)] public RaptureAtkUnitManager RaptureAtkUnitManager;
+    [FieldOffset(0x1D180)] public RaptureAtkColorDataManager RaptureAtkColorDataManager;
 
-    [FieldOffset(0x1D3E0 - 0x10)] public int NameplateInfoCount;
-    [FieldOffset(0x1D3E8 - 0x10), FixedSizeArray] internal FixedSizeArray50<NamePlateInfo> _namePlateInfoEntries;
+    [FieldOffset(0x1D400)] public int NameplateInfoCount;
+    [FieldOffset(0x1D408), FixedSizeArray] internal FixedSizeArray50<NamePlateInfo> _namePlateInfoEntries;
 
-    [FieldOffset(0x24860 - 0x10), FixedSizeArray] internal FixedSizeArray18<CrystalCache> _crystalItemCache;
-    [FieldOffset(0x25310 - 0x10)] public ItemCache* KeyItemCache; // ptr to 120 entries
-    [FieldOffset(0x25318 - 0x10)] public ItemCache* EquippedItemCache; // ptr to 14 entries
-    [FieldOffset(0x25320 - 0x10), FixedSizeArray] internal FixedSizeArray160<ItemCache> _inventoryItemCache; // only 140 slots are processed, unused?
-    [FieldOffset(0x2A820 - 0x10)] public uint InventoryItemCacheSlotCount;
-    [FieldOffset(0x2A824 - 0x10)] public uint GilCap;
+    [FieldOffset(0x24880), FixedSizeArray] internal FixedSizeArray18<CrystalCache> _crystalItemCache;
+    [FieldOffset(0x25330)] public ItemCache* KeyItemCache; // ptr to 120 entries
+    [FieldOffset(0x25338)] public ItemCache* EquippedItemCache; // ptr to 14 entries
+    [FieldOffset(0x25340), FixedSizeArray] internal FixedSizeArray160<ItemCache> _inventoryItemCache; // only 140 slots are processed, unused?
+    [FieldOffset(0x2A840)] public uint InventoryItemCacheSlotCount;
+    [FieldOffset(0x2A844)] public uint GilCap;
 
-    [FieldOffset(0x2A888 - 0x10)] public uint LocalPlayerClassJobId;
-    [FieldOffset(0x2A88C - 0x10)] public uint LocalPlayerLevel;
+    [FieldOffset(0x2A8A8)] public uint LocalPlayerClassJobId;
+    [FieldOffset(0x2A8AC)] public uint LocalPlayerLevel;
 
-    [FieldOffset(0x2A895 - 0x10)] public bool QuickGatheringEnabled;
+    [FieldOffset(0x2A8B5)] public bool QuickGatheringEnabled;
 
-    [FieldOffset(0x2A89B - 0x10)] public bool QTEActive;
+    [FieldOffset(0x2A8BB)] public bool QTEActive;
 
-    [FieldOffset(0x2A900 - 0x10)] internal ExcelSheet* AddonParamSheet;
-    [FieldOffset(0x2A908 - 0x10)] public AtkTexture CharaViewDefaultBackgroundTexture; // "ui/common/CharacterBg.tex" (or _hr1 variant)
-    [FieldOffset(0x2A920 - 0x10)] public CreditMode CreditMode;
-    [FieldOffset(0x2A924 - 0x10)] public uint LoginSummonCompanionId;
-    [FieldOffset(0x2A928 - 0x10)] public float LoginSummonCompanionCountdown;
+    [FieldOffset(0x2A920)] internal ExcelSheet* AddonParamSheet;
+    [FieldOffset(0x2A928)] public AtkTexture CharaViewDefaultBackgroundTexture; // "ui/common/CharacterBg.tex" (or _hr1 variant)
+    [FieldOffset(0x2A940)] public CreditMode CreditMode;
+    [FieldOffset(0x2A944)] public uint LoginSummonCompanionId;
+    [FieldOffset(0x2A948)] public float LoginSummonCompanionCountdown;
     /// <remarks> Only for Region 5 </remarks>
-    [FieldOffset(0x2A92C - 0x10)] public float HourTimer;
+    [FieldOffset(0x2A94C)] public float HourTimer;
     /// <remarks> Only for Region 5 </remarks>
-    [FieldOffset(0x2A930 - 0x10)] public int HoursPlayed;
+    [FieldOffset(0x2A950)] public int HoursPlayed;
 
-    [FieldOffset(0x2A948 - 0x10)] internal nint ShellCommands; // only 1 function to open links?
+    [FieldOffset(0x2A968)] internal nint ShellCommands; // only 1 function to open links?
 
     [MemberFunction("48 89 5C 24 ?? 57 48 83 EC ?? 0F BF 81 ?? ?? ?? ?? 8B FA")]
     public partial bool ChangeUiMode(uint uiMode); // TODO: fix capitalization -> ChangeUIMode
