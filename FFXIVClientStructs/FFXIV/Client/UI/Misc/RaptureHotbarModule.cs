@@ -374,7 +374,7 @@ public unsafe partial struct RaptureHotbarModule {
     /// </summary>
     /// <param name="index">The index of the DutyAction slot to edit.</param>
     /// <param name="actionId">The ID of the action to set in this slot.</param>
-    [MemberFunction("E8 ?? ?? ?? ?? FF C3 83 FB 05 72 C2")]
+    [MemberFunction("E8 ?? ?? ?? ?? FF C3 83 FB 02 7C ?? 49 8B 8E")]
     public partial void SetDutyActionSlot(uint index, uint actionId);
 
     /// <summary>
